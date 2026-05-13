@@ -123,14 +123,16 @@
 <script>
 const $ = (id) => document.getElementById(id);
 
-function fmtTs(iso) {
-  const d = new Date(new Date(iso).getTime() - 3600 * 1000);
+function fmtBerlin(iso, offsetHours = 0) {
+  const d = new Date(new Date(iso).getTime() - offsetHours * 3600 * 1000);
   return d.toLocaleString("en-GB", {
     dateStyle: "short",
     timeStyle: "medium",
     timeZone: "Europe/Berlin",
   });
 }
+const fmtTs = (iso) => fmtBerlin(iso, 1);
+const fmtNow = (iso) => fmtBerlin(iso, 0);
 
 function renderHistory(history) {
   const ul = $("history");
@@ -196,7 +198,7 @@ async function load() {
       $("level").textContent = data.current.level;
       $("xp").textContent = data.current.xpPercent + "%";
       $("xpbar").style.width = Math.min(100, data.current.xpPercent) + "%";
-      $("status").textContent = `Last updated: ${fmtTs(data.current.updatedAt)}`;
+      $("status").textContent = `Last updated: ${fmtNow(data.current.updatedAt)}`;
       $("status").classList.remove("err");
     } else {
       $("status").textContent = "No data yet — waiting for first poll";
