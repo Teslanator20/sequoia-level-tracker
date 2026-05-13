@@ -54,12 +54,15 @@
   li {
     padding: 10px 0;
     border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 16px;
+    align-items: baseline;
     font-size: 14px;
   }
   li:last-child { border-bottom: none; }
   li .lv { color: var(--accent); font-weight: 600; }
+  li .gap { color: var(--accent2); font-variant-numeric: tabular-nums; }
   li .ts { color: var(--muted); }
   .empty { color: var(--muted); font-size: 14px; font-style: italic; }
   .footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 16px; }
@@ -161,9 +164,15 @@ function renderHistory(history) {
     return;
   }
   empty.style.display = "none";
-  for (const entry of history.slice().reverse()) {
+  const sorted = history.slice().sort((a, b) => new Date(a.ts) - new Date(b.ts));
+  for (let i = sorted.length - 1; i >= 0; i--) {
+    const entry = sorted[i];
+    const prev = i > 0 ? sorted[i - 1] : null;
+    const gap = prev
+      ? ((new Date(entry.ts).getTime() - new Date(prev.ts).getTime()) / 86400000).toFixed(4) + " days"
+      : "—";
     const li = document.createElement("li");
-    li.innerHTML = `<span class="lv">Level ${entry.level}</span><span class="ts">${fmtTs(entry.ts)}</span>`;
+    li.innerHTML = `<span class="lv">Level ${entry.level}</span><span class="gap">${gap}</span><span class="ts">${fmtTs(entry.ts)}</span>`;
     ul.appendChild(li);
   }
 }
