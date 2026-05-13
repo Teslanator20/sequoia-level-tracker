@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Sequoia Level Tracker</title>
@@ -70,11 +70,11 @@
 <body>
 <div class="wrap">
   <h1>Sequoia Level Tracker</h1>
-  <div class="sub">Serverseitiges Polling alle 5 Minuten via GitHub Actions</div>
+  <div class="sub">Server-side polling every 5 minutes via GitHub Actions</div>
 
   <div class="panel">
     <div class="row">
-      <span class="label">Aktuelles Level</span>
+      <span class="label">Current Level</span>
       <span class="value lvl" id="level">–</span>
     </div>
     <div class="row">
@@ -83,17 +83,17 @@
     </div>
     <div class="bar"><div id="xpbar" style="width:0%"></div></div>
     <div class="row" style="margin-top: 16px;">
-      <span class="status" id="status">Lade…</span>
+      <span class="status" id="status">Loading…</span>
     </div>
   </div>
 
   <div class="panel">
     <h2>Level-up History</h2>
     <ul id="history"></ul>
-    <div class="empty" id="emptyMsg" style="display:none">Noch keine Level-ups aufgezeichnet.</div>
+    <div class="empty" id="emptyMsg" style="display:none">No level-ups recorded yet.</div>
   </div>
 
-  <div class="footer">Quelle: Wynncraft API v3 · gespeichert im Repo</div>
+  <div class="footer">Source: Wynncraft API v3 · stored in repo</div>
 </div>
 
 <script>
@@ -101,7 +101,7 @@ const $ = (id) => document.getElementById(id);
 
 function fmtTs(iso) {
   const d = new Date(iso);
-  return d.toLocaleString("de-DE", { dateStyle: "short", timeStyle: "medium" });
+  return d.toLocaleString("en-US", { dateStyle: "short", timeStyle: "medium" });
 }
 
 function renderHistory(history) {
@@ -130,15 +130,15 @@ async function load() {
       $("level").textContent = data.current.level;
       $("xp").textContent = data.current.xpPercent + "%";
       $("xpbar").style.width = Math.min(100, data.current.xpPercent) + "%";
-      $("status").textContent = `Zuletzt aktualisiert: ${fmtTs(data.current.updatedAt)}`;
+      $("status").textContent = `Last updated: ${fmtTs(data.current.updatedAt)}`;
       $("status").classList.remove("err");
     } else {
-      $("status").textContent = "Noch keine Daten — warte auf ersten Poll";
+      $("status").textContent = "No data yet — waiting for first poll";
     }
 
     renderHistory(data.history);
   } catch (e) {
-    $("status").textContent = `Fehler: ${e.message}`;
+    $("status").textContent = `Error: ${e.message}`;
     $("status").classList.add("err");
   }
 }
