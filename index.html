@@ -100,8 +100,12 @@
 const $ = (id) => document.getElementById(id);
 
 function fmtTs(iso) {
-  const d = new Date(iso);
-  return d.toLocaleString("en-US", { dateStyle: "short", timeStyle: "medium" });
+  const d = new Date(new Date(iso).getTime() - 3600 * 1000);
+  return d.toLocaleString("en-GB", {
+    dateStyle: "short",
+    timeStyle: "medium",
+    timeZone: "Europe/Berlin",
+  });
 }
 
 function renderHistory(history) {
