@@ -73,6 +73,7 @@
     margin-bottom: 12px;
   }
   .panel-head h2 { margin: 0; }
+  .btn-group { display: flex; gap: 8px; }
   button {
     background: transparent;
     color: var(--text);
@@ -112,7 +113,10 @@
   <div class="panel">
     <div class="panel-head">
       <h2>Level-up History</h2>
-      <button id="copyBtn" disabled>Copy ano command</button>
+      <div class="btn-group">
+        <button id="copyBtn" disabled>Copy ano command</button>
+        <button id="copyPayoutBtn" disabled>Copy Raid Payout Message</button>
+      </div>
     </div>
     <ul id="history"></ul>
     <div class="empty" id="emptyMsg" style="display:none">No level-ups recorded yet.</div>
@@ -174,8 +178,35 @@ function sortedHistory(history) {
 }
 
 function updateCopyBtn(history) {
-  const btn = $("copyBtn");
-  btn.disabled = !history || history.length < 2;
+  const enabled = history && history.length >= 2;
+  $("copyBtn").disabled = !enabled;
+  $("copyPayoutBtn").disabled = !enabled;
+}
+
+function buildPayoutMessage(history) {
+  const sorted = sortedHistory(history);
+  const last = sorted[0];
+  const prev = sorted[1];
+  const days = ((new Date(last.ts).getTime() - new Date(prev.ts).getTime()) / 86400000).toFixed(4);
+  return `# Level ${last.level} Reached!
+${days} days
+<@&1030198924323078194> please contact me, <@420289176421007360>, <@581255561941614607>, <@894980597557100554>, <@261115988831895552>, <@366506301544726528> or <@356962089878945793> for your payout
+
+0.5LE per raid`;
+}
+
+async function copyToClipboard(text, btn, defaultLabel) {
+  try {
+    await navigator.clipboard.writeText(text);
+    btn.textContent = "Copied!";
+    btn.classList.add("copied");
+  } catch {
+    btn.textContent = "Copy failed";
+  }
+  setTimeout(() => {
+    btn.textContent = defaultLabel;
+    btn.classList.remove("copied");
+  }, 1500);
 }
 
 let currentData = null;
@@ -183,22 +214,14 @@ let currentData = null;
 $("copyBtn").addEventListener("click", async () => {
   if (!currentData || !currentData.history || currentData.history.length < 2) return;
   const sorted = sortedHistory(currentData.history);
-  const last = sorted[0];
-  const prev = sorted[1];
-  const cmd = `-graids -g SEQ -r ${daysAgo(prev.ts)} ${daysAgo(last.ts)}`;
-  const btn = $("copyBtn");
-  try {
-    await navigator.clipboard.writeText(cmd);
-    btn.textContent = "Copied!";
-    btn.classList.add("copied");
-    setTimeout(() => {
-      btn.textContent = "Copy ano command";
-      btn.classList.remove("copied");
-    }, 1500);
-  } catch (e) {
-    btn.textContent = "Copy failed";
-    setTimeout(() => { btn.textContent = "Copy ano command"; }, 1500);
-  }
+  const cmd = `-graids -g SEQ -r ${daysAgo(sorted[1].ts)} ${daysAgo(sorted[0].ts)}`;
+  copyToClipboard(cmd, $("copyBtn"), "Copy ano command");
+});
+
+$("copyPayoutBtn").addEventListener("click", () => {
+  if (!currentData || !currentData.history || currentData.history.length < 2) return;
+  const msg = buildPayoutMessage(currentData.history);
+  copyToClipboard(msg, $("copyPayoutBtn"), "Copy Raid Payout Message");
 });
 
 async function load() {
