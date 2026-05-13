@@ -6,13 +6,13 @@
   },
   "history": [
     {
-      "level": 222,
-      "fromLevel": 221,
+      "level": 221,
+      "fromLevel": 220,
       "ts": "2026-05-10T02:36:00.000Z"
     },
     {
-      "level": 223,
-      "fromLevel": 222,
+      "level": 222,
+      "fromLevel": 221,
       "ts": "2026-05-13T01:52:00.000Z"
     }
   ]
