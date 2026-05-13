@@ -65,6 +65,27 @@
   .footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 16px; }
   .status { font-size: 12px; color: var(--muted); }
   .status.err { color: #e07070; }
+  .panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .panel-head h2 { margin: 0; }
+  button {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: inherit;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  button.copied { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -88,7 +109,10 @@
   </div>
 
   <div class="panel">
-    <h2>Level-up History</h2>
+    <div class="panel-head">
+      <h2>Level-up History</h2>
+      <button id="copyBtn" disabled>Copy ano command</button>
+    </div>
     <ul id="history"></ul>
     <div class="empty" id="emptyMsg" style="display:none">No level-ups recorded yet.</div>
   </div>
@@ -124,11 +148,49 @@ function renderHistory(history) {
   }
 }
 
+function daysAgo(iso) {
+  const ms = Date.now() - new Date(iso).getTime();
+  return (ms / 86400000).toFixed(4);
+}
+
+function sortedHistory(history) {
+  return history.slice().sort((a, b) => new Date(b.ts) - new Date(a.ts));
+}
+
+function updateCopyBtn(history) {
+  const btn = $("copyBtn");
+  btn.disabled = !history || history.length < 2;
+}
+
+let currentData = null;
+
+$("copyBtn").addEventListener("click", async () => {
+  if (!currentData || !currentData.history || currentData.history.length < 2) return;
+  const sorted = sortedHistory(currentData.history);
+  const last = sorted[0];
+  const prev = sorted[1];
+  const cmd = `-graids -g SEQ -r ${daysAgo(prev.ts)} ${daysAgo(last.ts)}`;
+  const btn = $("copyBtn");
+  try {
+    await navigator.clipboard.writeText(cmd);
+    btn.textContent = "Copied!";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.textContent = "Copy ano command";
+      btn.classList.remove("copied");
+    }, 1500);
+  } catch (e) {
+    btn.textContent = "Copy failed";
+    setTimeout(() => { btn.textContent = "Copy ano command"; }, 1500);
+  }
+});
+
 async function load() {
   try {
     const res = await fetch("data.json?_=" + Date.now(), { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
+    currentData = data;
 
     if (data.current) {
       $("level").textContent = data.current.level;
@@ -141,6 +203,7 @@ async function load() {
     }
 
     renderHistory(data.history);
+    updateCopyBtn(data.history);
   } catch (e) {
     $("status").textContent = `Error: ${e.message}`;
     $("status").classList.add("err");
