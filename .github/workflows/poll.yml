@@ -30,5 +30,9 @@ jobs:
             echo "No changes"
           else
             git commit -m "chore: update guild data"
-            git push
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              echo "Retry $i"
+              sleep 2
+            done
           fi
