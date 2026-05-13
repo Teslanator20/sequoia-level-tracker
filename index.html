@@ -65,6 +65,7 @@
   .footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 16px; }
   .status { font-size: 12px; color: var(--muted); }
   .status.err { color: #e07070; }
+  .status.stale { color: #d8a23e; }
   .panel-head {
     display: flex;
     justify-content: space-between;
@@ -134,6 +135,19 @@ function fmtBerlin(iso, offsetHours = 0) {
 const fmtTs = (iso) => fmtBerlin(iso, 1);
 const fmtNow = (iso) => fmtBerlin(iso, 0);
 
+function relativeAge(iso) {
+  const sec = Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 1000));
+  if (sec < 60) return `${sec}s ago`;
+  const min = Math.floor(sec / 60);
+  if (min < 60) return `${min} min ago`;
+  const h = Math.floor(min / 60);
+  const m = min % 60;
+  if (h < 24) return m ? `${h}h ${m}m ago` : `${h}h ago`;
+  const d = Math.floor(h / 24);
+  const rh = h % 24;
+  return rh ? `${d}d ${rh}h ago` : `${d}d ago`;
+}
+
 function renderHistory(history) {
   const ul = $("history");
   const empty = $("emptyMsg");
@@ -198,8 +212,10 @@ async function load() {
       $("level").textContent = data.current.level;
       $("xp").textContent = data.current.xpPercent + "%";
       $("xpbar").style.width = Math.min(100, data.current.xpPercent) + "%";
-      $("status").textContent = `Last updated: ${fmtNow(data.current.updatedAt)}`;
+      const age = relativeAge(data.current.updatedAt);
+      $("status").textContent = `Last updated: ${fmtNow(data.current.updatedAt)} (${age})`;
       $("status").classList.remove("err");
+      $("status").classList.toggle("stale", Date.now() - new Date(data.current.updatedAt).getTime() > 15 * 60 * 1000);
     } else {
       $("status").textContent = "No data yet — waiting for first poll";
     }
