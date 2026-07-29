@@ -1,0 +1,164 @@
+{
+  "guild": "Sequoia",
+  "unit": "xpPercent",
+  "note": "Point appended only when level or xp changed. src=levelup means backfilled from level-up history (xp assumed 0); src=poll means observed directly.",
+  "updatedAt": "2026-07-29T14:05:34.760Z",
+  "points": [
+    {
+      "ts": "2026-05-10T02:36:00.000Z",
+      "level": 221,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-05-13T01:52:00.000Z",
+      "level": 222,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-05-16T01:00:26.226Z",
+      "level": 223,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-05-18T00:40:20.212Z",
+      "level": 224,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-05-21T06:50:19.829Z",
+      "level": 225,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-05-25T19:55:20.106Z",
+      "level": 226,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-05-30T13:20:23.890Z",
+      "level": 227,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-01T11:40:28.514Z",
+      "level": 228,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-03T05:45:26.042Z",
+      "level": 229,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-05T11:45:30.598Z",
+      "level": 230,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-06T22:35:21.417Z",
+      "level": 231,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-08T22:45:25.500Z",
+      "level": 232,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-11T06:40:27.734Z",
+      "level": 233,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-14T13:50:40.347Z",
+      "level": 234,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-18T08:15:37.238Z",
+      "level": 235,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-21T13:35:30.314Z",
+      "level": 236,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-25T01:35:29.364Z",
+      "level": 237,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-06-28T20:40:34.714Z",
+      "level": 238,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-07-02T22:35:26.430Z",
+      "level": 239,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-07-06T14:50:52.916Z",
+      "level": 240,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-07-10T15:55:27.570Z",
+      "level": 241,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-07-15T23:50:47.020Z",
+      "level": 242,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-07-24T11:55:21.038Z",
+      "level": 243,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-07-26T17:45:23.605Z",
+      "level": 244,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-07-29T01:45:24.811Z",
+      "level": 245,
+      "xp": 0,
+      "src": "levelup"
+    },
+    {
+      "ts": "2026-07-29T14:05:34.760Z",
+      "level": 245,
+      "xp": 15,
+      "src": "poll"
+    }
+  ]
+}
