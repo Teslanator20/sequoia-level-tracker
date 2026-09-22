@@ -2,7 +2,7 @@
   "guild": "Sequoia",
   "unit": "xpPercent",
   "note": "Point appended only when level or xp changed. src=levelup means backfilled from level-up history (xp assumed 0); src=poll means observed directly.",
-  "updatedAt": "2026-09-22T06:55:25.538Z",
+  "updatedAt": "2026-09-22T07:00:48.816Z",
   "points": [
     {
       "ts": "2026-05-10T02:36:00.000Z",
@@ -11474,6 +11474,12 @@
       "ts": "2026-09-22T06:25:23.444Z",
       "level": 264,
       "xp": 0,
+      "src": "poll"
+    },
+    {
+      "ts": "2026-09-22T07:00:48.816Z",
+      "level": 264,
+      "xp": 1,
       "src": "poll"
     }
   ]
