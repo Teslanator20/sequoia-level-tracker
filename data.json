@@ -1,8 +1,8 @@
 {
   "current": {
-    "level": 269,
-    "xpPercent": 100,
-    "updatedAt": "2026-11-20T08:30:43.992Z"
+    "level": 270,
+    "xpPercent": 0,
+    "updatedAt": "2026-11-20T08:35:32.493Z"
   },
   "history": [
     {
@@ -249,6 +249,11 @@
       "level": 269,
       "fromLevel": 268,
       "ts": "2026-11-05T19:45:31.171Z"
+    },
+    {
+      "level": 270,
+      "fromLevel": 269,
+      "ts": "2026-11-20T08:35:32.493Z"
     }
   ]
 }
